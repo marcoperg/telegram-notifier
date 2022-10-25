@@ -19,7 +19,10 @@
   },
   "homepage": "https://github.com/marcoperg/telegram-notifier#readme",
   "dependencies": {
+    "body-parser": "^1.20.1",
     "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.0",
     "node-telegram-bot-api": "^0.59.0",
     "nodemon": "^2.0.20"
   }
