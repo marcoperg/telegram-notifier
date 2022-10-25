@@ -40,13 +40,16 @@ bot.setMyCommands([
 ]);
 
 app.post('/', (req, res) => {
-    if (req?.headers?.token != 'Bearer ' + process.env['SECRET'])
+    console.log(req.files);
+    if (req?.headers?.token != process.env['SECRET'])
         res.status(403).send('Authentication failed');
-    subscribers.map(id => {
-        bot.sendPhoto(id, req?.files?.photo?.data);
-        bot.sendMessage(id, req?.body?.text)
-    });
-    res.send('SUCCESS');
+    else {
+        subscribers.map(id => {
+            bot.sendPhoto(id, req?.files?.photo?.data);
+            bot.sendMessage(id, req?.body?.text)
+        });
+        res.send('SUCCESS');
+    }
 });
 
 app.listen(3000, () => {
