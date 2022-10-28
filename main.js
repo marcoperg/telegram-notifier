@@ -1,3 +1,4 @@
+const { exec } = require("child_process");
 const TelegramBot = require('node-telegram-bot-api');
 require('dotenv').config();
 const app = require('express')();
@@ -34,9 +35,21 @@ bot.onText(/\/unsubscribe/, msg => {
     }
 });
 
+bot.onText(/\/sensors/, msg => {
+    try {
+        const id = msg.chat.id;
+        exec('sensors k10temp-pci-00c3', (error, stdout, stderror) => {
+            bot.sendMessage(id, stdout);
+        })
+    } catch (e) {
+        console.log(e);
+    }
+});
+
 bot.setMyCommands([
     {command: 'subscribe', description: 'Subscribes to notifications'},
     {command: 'unsubscribe', description: 'Unubscribes from notifications'},
+    {command: 'sensors', description: 'Get temp information'},
 ]);
 
 app.post('/', (req, res) => {
