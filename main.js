@@ -46,10 +46,22 @@ bot.onText(/\/sensors/, msg => {
     }
 });
 
+bot.onText(/\/uptime/, msg => {
+    try {
+        const id = msg.chat.id;
+        exec('uptime', (error, stdout, stderror) => {
+            bot.sendMessage(id, stdout);
+        })
+    } catch (e) {
+        console.log(e);
+    }
+});
+
 bot.setMyCommands([
     {command: 'subscribe', description: 'Subscribes to notifications'},
     {command: 'unsubscribe', description: 'Unubscribes from notifications'},
     {command: 'sensors', description: 'Get temp information'},
+    {command: 'uptime', description: 'Get uptime of the system'},
 ]);
 
 app.post('/', (req, res) => {
