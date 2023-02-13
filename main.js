@@ -65,13 +65,14 @@ bot.setMyCommands([
 ]);
 
 app.post('/', (req, res) => {
-    console.log(req.files);
     if (req?.headers?.token != process.env['SECRET'])
         res.status(403).send('Authentication failed');
     else {
         subscribers.map(id => {
-            bot.sendPhoto(id, req?.files?.photo?.data);
-            bot.sendMessage(id, req?.body?.text)
+            if (req?.files?.photo)
+                bot.sendPhoto(id, req?.files?.photo?.data);
+            if (req?.body?.text)
+                bot.sendMessage(id, req?.body?.text)
         });
         res.send('SUCCESS');
     }
