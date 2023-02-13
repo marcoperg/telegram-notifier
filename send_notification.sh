@@ -1,12 +1,16 @@
-#!/bin/bash
+#! /bin/bash
 
 # Load vars
-export $(cat .env)
+ENV_FILE=".env"
+if readlink $0 > /dev/null; then
+    ENV_FILE="$(readlink $0 | xargs dirname)/.env"
+fi
+export $(cat $ENV_FILE)
 
-# if [ $# -ne 1 ]; then
-#     echo "Usage: send_notification [text]"
-#     exit 1
-# fi
+if [ $# -ne 1 ]; then
+    echo "Usage: send_notification [text]"
+    exit 1
+fi
 
 # Send notificatiosn through web server
 TOKEN=$(echo $SECRET | sed 's/"//g')
